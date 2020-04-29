@@ -46,6 +46,43 @@ barraMenu.add_cascade(label="LIMPIAR", menu=bLimpiar)
 barraMenu.add_cascade(label="C-R-U-D", menu=bCrud)
 barraMenu.add_cascade(label="AYUDA", menu=bAyuda)
 
+###################En esta seccion contrimos el frame que contendra : cajas de texto y etiquetas
+#contrccion de frame
+frmEntryLabel = Frame(root)
+frmEntryLabel.pack()
+
+#construir la primer caja de texto
+txtExpediente = Entry(frmEntryLabel)
+txtExpediente.grid(row=0, column=1, padx=10, pady=10)
+
+#construir la primer caja de texto
+txtApellidoPaterno = Entry(frmEntryLabel)
+txtApellidoPaterno.grid(row=1, column=1, padx=10, pady=10)
+
+#construir la primer caja de texto
+txtApellidoMaterno = Entry(frmEntryLabel)
+txtApellidoMaterno.grid(row=2, column=1, padx=10, pady=10)
+
+#construir la primer caja de texto
+txtNombreAlumno = Entry(frmEntryLabel)
+txtNombreAlumno.grid(row=3, column=1, padx=10, pady=10)
+
+#######    SECCION DE CREACION DE ETIQUETAS     ########
+
+lblExpediente = Label(frmEntryLabel, text="Numero de Expediente: ")
+lblExpediente.grid(row=0, column=0, padx=10, pady=10)
+
+#segunda etiqueta
+lblApellidoPaterno = Label(frmEntryLabel, text="Apellido Paterno: ")
+lblApellidoPaterno.grid(row=1, column=0, padx=10, pady=10)
+
+#tercera Etiqueta
+lblApellidoMaterno = Label(frmEntryLabel, text="Apellido Materno: ")
+lblApellidoMaterno.grid(row=2, column=0, padx=10, pady=10)
+
+#cuarta Etiqueta
+lblNombreAlumno = Label(frmEntryLabel, text="Apellido Materno: ")
+lblNombreAlumno.grid(row=3, column=0, padx=10, pady=10)
 
 #Creamos un bucle
 root.mainloop()
