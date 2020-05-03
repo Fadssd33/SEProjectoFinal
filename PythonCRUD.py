@@ -33,6 +33,10 @@ def Read():
     # Guarda los datos en una varieble llamada entries
     entries = BD.Read()
     return entries
+
+def Delete(ID):
+    print(ID)
+    
     
 
 
@@ -46,24 +50,134 @@ def Clean():
 
     # Regresa el foco en el primer campo
     txtNombre.focus()
-## Funcion para abrir segunda ventana
+## ######### Funcion para abrir ventana visualizar datos ##############
 def OpenRead():
     ###### Segunda Ventana ########
     readWindow = Tk()
     readWindow.title("Visualizar datos")
     readWindow.config(background = "#8F10CA")
-    readWindow.geometry("470x600")
+    readWindow.geometry("545x600")
+
+    # crear labels para mostrar las cabeceras de los datos
+    lblColumnNameID =  Label(readWindow, text="ID", bg="#FFF240", fg="white", borderwidth=3, relief="sunken", width=10)
+    lblColumnNameID.grid(row=0, column=0)
+    lblColumnNameNombre =  Label(readWindow, text="Nombre", bg="#FFF240", fg="white", borderwidth=3, relief="sunken", width=10)
+    lblColumnNameNombre.grid(row=0, column=1)
+    lblColumnNameRaza =  Label(readWindow, text="Raza", bg="#FFF240", fg="white", borderwidth=3, relief="sunken", width=10)
+    lblColumnNameRaza.grid(row=0, column=2)
+    lblColumnNameClase =  Label(readWindow, text="Clase", bg="#FFF240", fg="white", borderwidth=3, relief="sunken", width=10)
+    lblColumnNameClase.grid(row=0, column=3)
+    lblColumnNameGenero =  Label(readWindow, text="Clase", bg="#FFF240", fg="white", borderwidth=3, relief="sunken", width=10)
+    lblColumnNameGenero.grid(row=0, column=4)
+    lblColumnNameJuego =  Label(readWindow, text="Juego", bg="#FFF240", fg="white", borderwidth=3, relief="sunken", width=10)
+    lblColumnNameJuego.grid(row=0, column=5)
+    # lblColumnNameBorrar =  Label(readWindow, text="BORRAR", bg="#FF7397", fg="white", borderwidth=3, relief="sunken", width=10)
+    # lblColumnNameBorrar.grid(row=0, column=6)
 
     # conseguir todos los datos ingresados y los pone en una varieble llamada characterList
     characterList = Read()
+
+    
     # recorre la variable characterList y los imprime en un label
     for index, x in enumerate(characterList):
         num = 0
         for y in x:
             lblCharacter = Label(readWindow, text=y, bg="#8F10CA", fg="white", borderwidth =3, relief="sunken", width = 10)
-            lblCharacter.grid(row=index, column=num)
+            lblCharacter.grid(row=index + 1, column=num)
             num += 1
-        # character_label = Label(readWindow, text=characterList, font= ("Cambria", 13), bg="#FFFFFF").pack()
+            print(x[1])
+        # Crea un boton para borrar por cada entrada
+        
+        # btnDeleteChar = Button(readWindow, text="BORRAR", command=lambda: Delete(x), bg="#B3AA36", fg="white", width = 10)
+        # btnDeleteChar.grid(row=index + 1, column=num)
+
+########### Funcion para abrir la ventana Borrar Datos #############3
+def OpenDelete():
+    deleteWindow = Tk()
+    deleteWindow.title("Borrar registro")
+    deleteWindow.config(background = "#8F10CA")
+    deleteWindow.geometry("545x600")
+    txtBuscarID = Entry(deleteWindow)
+    txtBuscarID.grid(row=0, column=1, padx=10, pady=10)
+    lblBuscarID = Label(deleteWindow, text="Buscar por ID : ")
+    lblBuscarID.grid(row=0, column=0, padx=10, pady=10)
+    # Boton para buscar entrada
+    btnBuscarEntrada = Button(deleteWindow, text="Buscar", font= ("Cambria", 13), bg="#FFFFFF", command = lambda: BD.Delete(txtBuscarID.get()))
+    btnBuscarEntrada.grid(row=0, column=3, padx=10, pady=10)
+    
+    
+########### Funcion para abrir la ventana Actualizar Datos #############
+def OpenUpdate():
+    updateWindow = Tk()
+    updateWindow.title("Actualizar registro")
+    updateWindow.config(background = "#8F10CA")
+    updateWindow.geometry("545x600")
+    txtBuscarID = Entry(updateWindow)
+    txtBuscarID.grid(row=0, column=1, padx=10, pady=10)
+    lblBuscarID = Label(updateWindow, text="Buscar por ID : ")
+    lblBuscarID.grid(row=0, column=0, padx=10, pady=10)
+        # Llenar datos en los textbox
+    def llenarDatos():
+        # Verifica que el registro exista
+        character = BD.Find(txtBuscarID.get())
+        if character != None:
+            # caja con el ID
+            txtID = Entry(updateWindow)
+            txtID.grid(row=5, column=1, padx=10, pady=10)
+            txtID.insert(0, character[0])
+            #construir la primer caja de texto
+            txtNombre = Entry(updateWindow)
+            txtNombre.grid(row=6, column=1, padx=10, pady=10)
+            txtNombre.insert(0, character[1])
+            #construir la segunda caja de texto
+            txtRaza = Entry(updateWindow)
+            txtRaza.grid(row=7, column=1, padx=10, pady=10)
+            txtRaza.insert(0, character[2])
+            #construir la tercera caja de texto
+            txtClase = Entry(updateWindow)
+            txtClase.grid(row=8, column=1, padx=10, pady=10)
+            txtClase.insert(0, character[3])
+            #construir la cuarta caja de texto
+            txtGenero = Entry(updateWindow)
+            txtGenero.grid(row=9, column=1, padx=10, pady=10)
+            txtGenero.insert(0, character[4])
+            #construir la quinta caja de texto
+            txtJuego = Entry(updateWindow)
+            txtJuego.grid(row=10, column=1, padx=10, pady=10)
+            txtJuego.insert(0, character[5])
+        else:
+            # Si la entrada no existe
+            messagebox.showerror("Error", "El ID no existe")
+    # Boton para buscar entrada
+    btnBuscarEntrada = Button(updateWindow, text="Buscar", font= ("Cambria", 13), bg="#FFFFFF", command = llenarDatos)
+    btnBuscarEntrada.grid(row=0, column=3, padx=10, pady=10)
+
+
+    #######    SECCION DE CREACION DE ETIQUETAS     ########
+    # Etiqueta ID
+    lblID = Label(updateWindow, text="ID: ", bg="#8F10CA", fg="white")
+    lblID.grid(row=5, column=0, padx=10, pady=10)
+    #primera etiqueta
+    lblNombre = Label(updateWindow, text="Nombre : " , bg="#8F10CA", fg="white")
+    lblNombre.grid(row=6, column=0, padx=10, pady=10)
+
+    #segunda Etiqueta
+    lblRaza = Label(updateWindow, text="Raza: " , bg="#8F10CA", fg="white")
+    lblRaza.grid(row=7, column=0, padx=10, pady=10)
+
+    #tercera Etiqueta
+    lblClase = Label(updateWindow, text="Clase: " , bg="#8F10CA", fg="white")
+    lblClase.grid(row=8, column=0, padx=10, pady=10)
+    #cuarta Etiqueta
+    lblGenero = Label(updateWindow, text="genero: " , bg="#8F10CA", fg="white")
+    lblGenero.grid(row=9, column=0, padx=10, pady=10)
+    #quinta Etiqueta
+    lblJuego = Label(updateWindow, text="Juego: " , bg="#8F10CA", fg="white")
+    lblJuego.grid(row=10, column=0, padx=10, pady=10)
+
+
+
+
 
 #Creacion de la ventana principal
 root = Tk()
@@ -93,8 +207,8 @@ bLimpiar.add_command(label="Limpiar campos", command = Clean)
 bCrud = Menu(barraMenu, tearoff = 0)
 bCrud.add_command(label="Create")
 bCrud.add_command(label="Read", command =  OpenRead)
-bCrud.add_command(label="Update")
-bCrud.add_command(label="Delete")
+bCrud.add_command(label="Update", command = OpenUpdate)
+bCrud.add_command(label="Delete", command = OpenDelete)
 
 
 #Contruiremos la cuarta opción del menú
@@ -171,10 +285,10 @@ btnCreate.grid(row=0, column=0, padx=10, pady=10)
 btnRead = Button(frmBotones, text="Leer", command=OpenRead, font= ("Cambria", 13), bg="#FFFFFF")
 btnRead.grid(row=0, column=1, padx=10, pady=19)
 #Crear el primer boton de Actualizar
-btnUpdate = Button(frmBotones, text="Actualizar", font= ("Cambria", 13), bg="#FFFFFF")
+btnUpdate = Button(frmBotones, text="Actualizar", command=OpenUpdate, font= ("Cambria", 13), bg="#FFFFFF")
 btnUpdate.grid(row=0, column=2, padx=10, pady=10)
 #Crear el primer boton de borrar
-btnDelete = Button(frmBotones, text="Borrar", font= ("Cambria", 13), bg="#FFFFFF")
+btnDelete = Button(frmBotones, text="Borrar", command=OpenDelete, font= ("Cambria", 13), bg="#FFFFFF")
 btnDelete.grid(row=0, column=3, padx=10, pady=10)
 
 

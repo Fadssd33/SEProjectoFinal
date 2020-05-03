@@ -37,18 +37,23 @@ def conectarBD():
 
 # Funcion para agregar entradas
 def Submit(nombre, raza, clase, genero, juego):
-    myconexion = sqlite3.connect("dbRPG")
 
-    # Variable de cursor
-    c = myconexion.cursor()
+    # Verifica que si no hay datos vacios
+    if (nombre == "" or raza == "" or clase == "" or genero == "" or juego == ""):
+        messagebox.showerror("ERROR", "Alguno de los datos esta vacio, intentelo de nuevo")
+    else: 
+        myconexion = sqlite3.connect("dbRPG")
 
-    # Insertar datos en la tabla
-    c.execute("INSERT INTO characterDetails VALUES (null, '" + nombre + "', '"+ raza + "', '" + clase + "', '" + genero + "', '" + juego + "')")
-    # Hacer cambios en la base de datos
-    myconexion.commit()
-    messagebox.showinfo('B.D', 'Personaje agregado con exito')
-    # Cerrar conexion
-    myconexion.close()
+        # Variable de cursor
+        c = myconexion.cursor()
+
+        # Insertar datos en la tabla
+        c.execute("INSERT INTO characterDetails VALUES (null, '" + nombre + "', '"+ raza + "', '" + clase + "', '" + genero + "', '" + juego + "')")
+        # Hacer cambios en la base de datos
+        myconexion.commit()
+        messagebox.showinfo('B.D', 'Personaje agregado con exito')
+        # Cerrar conexion
+        myconexion.close()
 
 # Funcion para leer datos ingresados
 def Read():
@@ -75,3 +80,51 @@ def Read():
     myconexion.close()
 
 
+# Funcion para borrar un registro
+def Delete(ID):
+    myconexion = sqlite3.connect("dbRPG")
+
+    # Buscar el valor de personaje y guardarlo en la variable character
+    character = Find(ID)
+    
+    # Verifica que el registro exista
+    if character == None:
+        messagebox.showerror("Error", "El registro no existe")
+        pass
+    # Si el registro si existe:
+    else:
+            # Pregunta al usuario si desea borrar los datos
+        result = messagebox.askyesno(title="Confirmar borrado de datos", message="Esta seguro que desea borrar el siguiente registro: \n " + str(character))
+    
+        if result == True:
+            # Variable de cursor
+            c = myconexion.cursor()
+        
+
+            # Query parra borrar un registro
+            c.execute("DELETE from characterDetails WHERE id = '"+ ID + "'")
+            myconexion.commit()
+            # Cerrar conexion
+            myconexion.close()
+    # Si el usuario presiona no:
+        else: 
+            pass
+
+    
+
+
+# Funcion para Encontrar un registro
+def Find(ID):
+    myconexion = sqlite3.connect("dbRPG")
+
+    # Variable de cursor
+    c = myconexion.cursor()
+
+    # Query para recuperar un registro por el ID
+    c.execute("SELECT * FROM characterDetails WHERE id = '" + ID +"'")
+    # Regresa los valores que estan en la fila
+    return c.fetchone()
+ 
+    myconexion.commit()
+    # Cerrar conexion
+    myconexion.close()
