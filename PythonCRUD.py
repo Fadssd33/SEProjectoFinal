@@ -86,7 +86,6 @@ def OpenRead():
             lblCharacter.grid(row=index + 1, column=num)
             num += 1
             print(x[1])
-        # Crea un boton para borrar por cada entrada
         
         # btnDeleteChar = Button(readWindow, text="BORRAR", command=lambda: Delete(x), bg="#B3AA36", fg="white", width = 10)
         # btnDeleteChar.grid(row=index + 1, column=num)
@@ -125,6 +124,7 @@ def OpenUpdate():
             txtID = Entry(updateWindow)
             txtID.grid(row=5, column=1, padx=10, pady=10)
             txtID.insert(0, character[0])
+            txtID.config(state='disabled')
             #construir la primer caja de texto
             txtNombre = Entry(updateWindow)
             txtNombre.grid(row=6, column=1, padx=10, pady=10)
@@ -145,11 +145,15 @@ def OpenUpdate():
             txtJuego = Entry(updateWindow)
             txtJuego.grid(row=10, column=1, padx=10, pady=10)
             txtJuego.insert(0, character[5])
+
+            # Muestra el boton para guardar cambios.
+            btnGuardar = Button(updateWindow, width = 13, text="Guardar cambios", font= ("Cambria", 13), bg="#FFFFFF", command = lambda: BD.Update(txtID.get(), txtNombre.get(), txtRaza.get(), txtClase.get(), txtGenero.get(), txtJuego.get()))
+            btnGuardar.grid(row=14, column=1, padx=10, pady=10)
         else:
             # Si la entrada no existe
             messagebox.showerror("Error", "El ID no existe")
     # Boton para buscar entrada
-    btnBuscarEntrada = Button(updateWindow, text="Buscar", font= ("Cambria", 13), bg="#FFFFFF", command = llenarDatos)
+    btnBuscarEntrada = Button(updateWindow, width = 15, text="Buscar", font= ("Cambria", 13), bg="#FFFFFF", command = llenarDatos)
     btnBuscarEntrada.grid(row=0, column=3, padx=10, pady=10)
 
 

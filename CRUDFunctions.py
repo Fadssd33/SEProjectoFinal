@@ -110,6 +110,30 @@ def Delete(ID):
         else: 
             pass
 
+# Funcion para cambiar datos de un registro
+def Update(id, nombre, raza, clase, genero, juego):
+
+    myconexion = sqlite3.connect("dbRPG")
+    c = myconexion.cursor()
+
+    try:
+       # Si la query se ejecuta correctamente
+       c.execute("UPDATE characterDetails SET nombre = '" + nombre + "', raza = '" + raza + "', clase = '" + clase + "', genero = '" + genero + "', juego = '" + juego + "' WHERE id = " + id)
+       messagebox.showinfo("BIEN", "Datos actualizados con exito")
+       
+        
+    except:
+        # Si no se pudieron ingresar los datos
+        messagebox.showerror("ERROR", "Los datos no pudieron ser ingresados")
+        
+
+
+
+    myconexion.commit()
+    # Cerrar conexion
+    myconexion.close()
+    
+
     
 
 
