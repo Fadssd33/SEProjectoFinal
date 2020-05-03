@@ -23,10 +23,19 @@ def Submit():
     clase = txtClase.get()
     genero = txtGenero.get()
     juego = txtJuego.get()
-    
+
 
     BD.Submit(nombre, raza, clase, genero, juego)
     Clean()
+
+# Funcion para leer datos
+def Read():
+    # Guarda los datos en una varieble llamada entries
+    entries = BD.Read()
+    return entries
+    
+
+
 # Borra los datos ingresados en los textbox
 def Clean():
     txtNombre.delete(0, END)
@@ -37,7 +46,25 @@ def Clean():
 
     # Regresa el foco en el primer campo
     txtNombre.focus()
-    
+## Funcion para abrir segunda ventana
+def OpenRead():
+    ###### Segunda Ventana ########
+    readWindow = Tk()
+    readWindow.title("Visualizar datos")
+    readWindow.config(background = "#8F10CA")
+    readWindow.geometry("470x600")
+
+    # conseguir todos los datos ingresados y los pone en una varieble llamada characterList
+    characterList = Read()
+    # recorre la variable characterList y los imprime en un label
+    for index, x in enumerate(characterList):
+        num = 0
+        for y in x:
+            lblCharacter = Label(readWindow, text=y, bg="#8F10CA", fg="white", borderwidth =3, relief="sunken", width = 10)
+            lblCharacter.grid(row=index, column=num)
+            num += 1
+        # character_label = Label(readWindow, text=characterList, font= ("Cambria", 13), bg="#FFFFFF").pack()
+
 #Creacion de la ventana principal
 root = Tk()
 root.title("DATOS DEl PERSONAJE")
@@ -65,7 +92,7 @@ bLimpiar.add_command(label="Limpiar campos", command = Clean)
 #Contruiremos la tercera opción del menú
 bCrud = Menu(barraMenu, tearoff = 0)
 bCrud.add_command(label="Create")
-bCrud.add_command(label="Read")
+bCrud.add_command(label="Read", command =  OpenRead)
 bCrud.add_command(label="Update")
 bCrud.add_command(label="Delete")
 
@@ -133,7 +160,7 @@ lblJuego.grid(row=4, column=0, padx=10, pady=10)
 
 
 ############ constrir el fame que contendra : los botones que invocan las funciones C-R-U-D  #
-# Crear el frame    
+# Crear el frame
 frmBotones = Frame(root)
 frmBotones.pack()
 frmBotones.config(background="#8F10CA")
@@ -141,7 +168,7 @@ frmBotones.config(background="#8F10CA")
 btnCreate = Button(frmBotones, text="Crear", font= ("Cambria", 13), bg="#FFFFFF", command = Submit)
 btnCreate.grid(row=0, column=0, padx=10, pady=10)
 #Crear el primer boton de Leer
-btnRead = Button(frmBotones, text="Leer", font= ("Cambria", 13), bg="#FFFFFF")
+btnRead = Button(frmBotones, text="Leer", command=OpenRead, font= ("Cambria", 13), bg="#FFFFFF")
 btnRead.grid(row=0, column=1, padx=10, pady=19)
 #Crear el primer boton de Actualizar
 btnUpdate = Button(frmBotones, text="Actualizar", font= ("Cambria", 13), bg="#FFFFFF")
@@ -149,6 +176,9 @@ btnUpdate.grid(row=0, column=2, padx=10, pady=10)
 #Crear el primer boton de borrar
 btnDelete = Button(frmBotones, text="Borrar", font= ("Cambria", 13), bg="#FFFFFF")
 btnDelete.grid(row=0, column=3, padx=10, pady=10)
+
+
+
 
 #Creamos un bucle
 root.mainloop()

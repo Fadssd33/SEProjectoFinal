@@ -50,7 +50,28 @@ def Submit(nombre, raza, clase, genero, juego):
     # Cerrar conexion
     myconexion.close()
 
-# Agregar personaje a la base de datos
-### INSERT ###
+# Funcion para leer datos ingresados
+def Read():
+    myconexion = sqlite3.connect("dbRPG")
+
+    # Variable de cursor
+    c = myconexion.cursor()
+
+    # Executa comando para leer datos
+    c.execute("SELECT * FROM characterDetails")
+    # Consigue todas las entradas
+    records = c.fetchall()
+    
+    print_records = ''
+    # Convertir todos los datos en strings y luego imprimirlos
+    recordsList = []
+    for x in records:
+        recordsList.append(x)
+    # regresa todos las entradas
+    return recordsList
+
+    myconexion.commit()
+    # Cerrar conexion
+    myconexion.close()
 
 
