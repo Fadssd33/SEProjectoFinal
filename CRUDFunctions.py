@@ -1,5 +1,6 @@
 import sqlite3
 from tkinter import messagebox
+import CRUDFunctions as BD
 
 # Conexion a base de datos
 def conectarBD():

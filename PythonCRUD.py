@@ -4,8 +4,6 @@ from tkinter import *
 from tkinter import messagebox
 import sqlite3
 
-
-
 # Creamos la funcion para salir del sistema
 def SalirSistema():
     #Mandar un mensaje
@@ -17,15 +15,9 @@ def SalirSistema():
         pass
 
 # Funcion insertar datos
-def Submit():
-    nombre = txtNombre.get()
-    raza = txtRaza.get()
-    clase = txtClase.get()
-    genero = txtGenero.get()
-    juego = txtJuego.get()
-
-
+def Submit(nombre, raza, clase, genero, juego):
     BD.Submit(nombre, raza, clase, genero, juego)
+    # Limpia datos despues de insertar los valores
     Clean()
 
 # Funcion para leer datos
@@ -34,8 +26,8 @@ def Read():
     entries = BD.Read()
     return entries
 
-def Delete(ID):
-    print(ID)
+# def Delete(ID):
+#     print(ID)
     
     
 
@@ -53,10 +45,14 @@ def Clean():
 ## ######### Funcion para abrir ventana visualizar datos ##############
 def OpenRead():
     ###### Segunda Ventana ########
+
+
+    # Crea la ventana para visualizar datos
     readWindow = Tk()
     readWindow.title("Visualizar datos")
     readWindow.config(background = "#8F10CA")
     readWindow.geometry("545x600")
+    
 
     # crear labels para mostrar las cabeceras de los datos
     lblColumnNameID =  Label(readWindow, text="ID", bg="#FFF240", fg="white", borderwidth=3, relief="sunken", width=10)
@@ -85,17 +81,21 @@ def OpenRead():
             lblCharacter = Label(readWindow, text=y, bg="#8F10CA", fg="white", borderwidth =3, relief="sunken", width = 10)
             lblCharacter.grid(row=index + 1, column=num)
             num += 1
-            print(x[1])
+            
         
         # btnDeleteChar = Button(readWindow, text="BORRAR", command=lambda: Delete(x), bg="#B3AA36", fg="white", width = 10)
         # btnDeleteChar.grid(row=index + 1, column=num)
 
 ########### Funcion para abrir la ventana Borrar Datos #############3
 def OpenDelete():
+
+
+    # crear ventana borrado de datos
     deleteWindow = Tk()
     deleteWindow.title("Borrar registro")
     deleteWindow.config(background = "#8F10CA")
     deleteWindow.geometry("545x600")
+
     txtBuscarID = Entry(deleteWindow)
     txtBuscarID.grid(row=0, column=1, padx=10, pady=10)
     lblBuscarID = Label(deleteWindow, text="Buscar por ID : ")
@@ -107,10 +107,16 @@ def OpenDelete():
     
 ########### Funcion para abrir la ventana Actualizar Datos #############
 def OpenUpdate():
+
+
+    # crear ventana borrado de datos
     updateWindow = Tk()
     updateWindow.title("Actualizar registro")
     updateWindow.config(background = "#8F10CA")
     updateWindow.geometry("545x600")
+
+
+    # Cajas de texto
     txtBuscarID = Entry(updateWindow)
     txtBuscarID.grid(row=0, column=1, padx=10, pady=10)
     lblBuscarID = Label(updateWindow, text="Buscar por ID : ")
@@ -187,6 +193,7 @@ def OpenUpdate():
 root = Tk()
 root.title("DATOS DEl PERSONAJE")
 root.config(background = "#8F10CA")
+root.geometry("545x600")
 
 #Crear la barra del menu
 barraMenu = Menu (root)
@@ -283,7 +290,7 @@ frmBotones = Frame(root)
 frmBotones.pack()
 frmBotones.config(background="#8F10CA")
 #Crear el primer boton de crear
-btnCreate = Button(frmBotones, text="Crear", font= ("Cambria", 13), bg="#FFFFFF", command = Submit)
+btnCreate = Button(frmBotones, text="Crear", font= ("Cambria", 13), bg="#FFFFFF", command = lambda: Submit(txtNombre.get(), txtRaza.get(), txtClase.get(), txtGenero.get(), txtJuego.get()))
 btnCreate.grid(row=0, column=0, padx=10, pady=10)
 #Crear el primer boton de Leer
 btnRead = Button(frmBotones, text="Leer", command=OpenRead, font= ("Cambria", 13), bg="#FFFFFF")
